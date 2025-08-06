@@ -1434,27 +1434,27 @@
             <h2 class="section-title">Contact Us</h2>
             <div class="contact-container">
                 <div class="contact-form">
-                    <h3>Get In Touch</h3>
-                    <form id="contactForm">
-                        <div class="form-group">
-                            <label for="name">Your Name</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Your Email</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone Number</label>
-                            <input type="tel" id="phone" name="phone">
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Your Message</label>
-                            <textarea id="message" name="message" required></textarea>
-                        </div>
-                        <button type="submit" class="btn">Send Message <i class="fas fa-paper-plane"></i></button>
-                    </form>
-                </div>
+    <h3>Get In Touch</h3>
+    <form id="contactForm" action="https://docs.google.com/forms/d/e/1FAIpQLSfGLu5057l1AkOYPEV8SUkEpNA_iWG0Ed0urWW1UX-VxSfASg/formResponse" method="POST" target="_blank">
+        <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="entry.754954691" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Your Email</label>
+            <input type="email" id="email" name="entry.1912573446" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="entry.2045200803">
+        </div>
+        <div class="form-group">
+            <label for="message">Your Message</label>
+            <textarea id="message" name="entry.252130102" required></textarea>
+        </div>
+        <button type="submit" class="btn">Send Message <i class="fas fa-paper-plane"></i></button>
+    </form>
+</div>
                 <div class="contact-info">
                     <div class="contact-details">
                         <h3>Contact Information</h3>
@@ -1596,18 +1596,48 @@
             });
         });
 
-        // Form Submission
-        const contactForm = document.getElementById('contactForm');
-        if (contactForm) {
-            contactForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Here you would typically send the form data to a server
-                // For demonstration, we'll just show an alert
-                alert('Thank you for your message! We will contact you soon.');
-                this.reset();
-            });
-        }
+        // Form Submission with Google Forms
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+        // Prevent default form submission
+        e.preventDefault();
+        
+        // Show loading state
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+        submitBtn.disabled = true;
+        
+        // Create a temporary iframe for submission
+        const iframe = document.createElement('iframe');
+        iframe.name = 'hidden-iframe';
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+        
+        // Set form target to the iframe
+        this.target = 'hidden-iframe';
+        
+        // Submit the form
+        this.submit();
+        
+        // Show success message after a short delay
+        setTimeout(() => {
+            // Show success message
+            alert('Thank you for your message! We will contact you soon.');
+            
+            // Reset form
+            this.reset();
+            
+            // Restore button state
+            submitBtn.innerHTML = originalBtnText;
+            submitBtn.disabled = false;
+            
+            // Remove the iframe
+            document.body.removeChild(iframe);
+        }, 2000);
+    });
+}
 
         // Animation on scroll
         const animateOnScroll = () => {
